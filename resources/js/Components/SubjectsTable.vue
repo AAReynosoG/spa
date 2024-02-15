@@ -13,7 +13,7 @@
                     <td>{{ item.name }}</td>
                     <td>{{ item.career.name }}</td>
                     <td>
-                        <Link class="btn btn-primary btn-space" href="#">Edit</Link>
+                        <Link class="btn btn-primary btn-space" :href="route('subjects.edit', {id: item.id})">Edit</Link>
                         <Link class="btn btn-danger btn-space" :href="route('subjects.confirmDelete', {id: item.id})">Delete</Link>
                     </td>
                 </tr>

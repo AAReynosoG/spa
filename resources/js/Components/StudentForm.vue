@@ -53,8 +53,8 @@
                     </div>
                 </div>
                 <div style="max-height: 130px; overflow-y: auto;">
-                    <div class="form-group" v-for="(item, index) in selectedItemsSubjects" :key="item">
-                        <label for="dropdownTeachers">Teacher for </label>
+                    <div class="form-group" v-for="(selectedItem, index) in selectedItemsSubjects" :key="selectedItem">
+                        <label for="dropdownTeachers">Teacher for {{ subjects.find(subject => subject.id === selectedItem).name }}</label>
                         <select :class="{ 'is-invalid': form.errors.teachers }" class="form-control" id="dropdownTeachers" v-model="selectedItemTeachers[index]">
                             <option v-if="teachers.length === 0">Nothing</option>
                             <option v-else v-for="item in teachers" :key="item.id" :value="item.id">
@@ -142,6 +142,10 @@ const form = useForm({
 });
 
 const submitForm = () => {
+    if (selectedItemsSubjects.value.length === 0 || selectedItemCareer.value === null) {
+        alert("You must select at least one subject and a career");
+    }
+
     form.teachers = selectedItemTeachers.value;
     form.subjects = selectedItemsSubjects.value;
     console.log(form);

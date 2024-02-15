@@ -1,7 +1,7 @@
 <template>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Navbar</a>
+            <Link class="navbar-brand" :href="route('main')">Navbar</Link>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -36,6 +36,8 @@
                             <li><Link class="dropdown-item" :href="route('teachers.index')">Teachers</Link></li>
                             <li><Link class="dropdown-item" :href="route('careers.index')">Careers</Link></li>
                             <li><Link class="dropdown-item" :href="route('subjects.index')">Subjects</Link></li>
+                            <li></li>
+                            <li><Link class="dropdown-item" :href="route('logout')" method="post">Logout</Link></li>
                         </ul>
                     </li>
                 </ul>

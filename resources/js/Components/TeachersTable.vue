@@ -14,9 +14,9 @@
             <tbody v-if="arr.length > 0">
             <tr v-for="(obj, key) in arr" :key="key" scope="row">
                 <td class="h-100">
-                    <!--<Link :href='route("users.show", {id: user.id})' class="text-decoration-none">-->
+                    <Link :href='route("teachers.show", {id: obj.id})' class="text-decoration-none">
                     {{ obj.name }} {{ obj.last_name }}
-                    <!--</Link>-->
+                    </Link>
                 </td>
                 <td>
                     {{ obj.email }}
@@ -28,7 +28,7 @@
                     {{ obj.address }}
                 </td>
                 <td>
-                    <Link class="btn btn-primary" href="#">
+                    <Link class="btn btn-primary" :href="route('teachers.edit', {id: obj.id})">
                         Update
                     </Link>
                 </td>

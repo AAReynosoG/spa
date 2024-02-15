@@ -9,6 +9,14 @@ class AcademicData extends Model
 {
     use HasFactory;
 
+    public function subject(){
+        return $this->belongsTo(Subject::class);
+    }
+
+    public function teacher(){
+        return $this->belongsTo(Teacher::class);
+    }
+
     protected $fillable = [
         'student_id',
         'subject_id',

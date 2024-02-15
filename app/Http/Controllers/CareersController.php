@@ -23,7 +23,7 @@ class CareersController extends Controller
 
     public function store(Request $request) {
         $request->validate([
-            "name"          => "required|min:3|max:30",
+            "name"          => "required|min:3|max:50",
             "description"   => "required|min:5|max:100",
         ]);
         $career = new Career();
@@ -31,11 +31,12 @@ class CareersController extends Controller
         $career->description = $request->get('description');
         $career->save();
 
-        return redirect()->route('careers.create');
+        return redirect()->route('careers.index');
     }
 
     public function index() : Response {
         $careers = Career::all();
+        if ($careers->isEmpty()) return Inertia::render('Errors/Empty');
         return Inertia::render('Careers/Index', [
             'arr' => $careers,
         ]);
@@ -59,6 +60,38 @@ class CareersController extends Controller
             'obj' => $career,
             'deleteObj' => route('careers.destroy', ['id' => $id]),
             'cancel' => route('careers.index')
+        ]);
+    }
+
+    public function edit(int $id) : Response {
+        $career = Career::find($id);
+        if (!$career) return Inertia::render('Errors/404');
+        return Inertia::render('Careers/Update', [
+            'career' => $career,
+        ]);
+    }
+
+    public function update(Request $request, int $id) {
+        $career = Career::find($id);
+        if (!$career) return Inertia::render('Errors/404');
+        $request->validate([
+            "name"          => "required|min:3|max:50",
+            "description"   => "required|min:5|max:100",
+        ]);
+        $career->name = $request->get('name');
+        $career->description = $request->get('description');
+        $career->save();
+
+        return redirect()->route('careers.index');
+    }
+
+    public function show(int $id) : Response {
+        $career = Career::find($id);
+        if (!$career) return Inertia::render('Errors/404');
+        $subjects = Subject::where('career_id', $id)->get();
+        return Inertia::render('Careers/Show', [
+            'career' => $career,
+            'subjects' => $subjects,
         ]);
     }
 }

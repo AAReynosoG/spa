@@ -9,12 +9,15 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="subject in arr" :key="subject.id">
-                <td>{{ subject.name }}</td>
-                <td>{{subject.description}}</td>
+            <tr v-for="obj in arr" :key="obj.id">
+                <td><Link :href="route('careers.show', {id: obj.id})">
+                {{ obj.name }}
+                </Link>
+                </td>
+                <td>{{obj.description}}</td>
                 <td>
-                    <Link class="btn btn-primary btn-space" href="#">Edit</Link>
-                    <Link class="btn btn-danger btn-space" :href="route('careers.confirmDelete', {id: subject.id})">Delete</Link>
+                    <Link class="btn btn-primary btn-space" :href="route('careers.edit', {id: obj.id})">Edit</Link>
+                    <Link class="btn btn-danger btn-space" :href="route('careers.confirmDelete', {id: obj.id})">Delete</Link>
                 </td>
             </tr>
             </tbody>

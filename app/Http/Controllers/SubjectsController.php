@@ -22,6 +22,7 @@ class SubjectsController extends Controller
 
     public function index() : Response {
         $subjects = Subject::all()->load('career');
+        if($subjects->isEmpty()) return Inertia::render('Errors/Empty');
         return Inertia::render('Subjects/Index', [
             'arr' => $subjects,
         ]);
@@ -37,7 +38,7 @@ class SubjectsController extends Controller
         $subject->career_id = $request->get('career_id');
         $subject->save();
 
-        return redirect()->route('subjects.create');
+        return redirect()->route('subjects.index');
     }
 
     public function destroy(int $id) {
@@ -57,4 +58,50 @@ class SubjectsController extends Controller
             'cancel' => route('subjects.index')
         ]);
     }
+
+    public function edit(int $id) : Response {
+        $subject = Subject::find($id);
+        if (!$subject) return Inertia::render('Errors/404');
+        return Inertia::render('Subjects/Update', [
+            'subject' => $subject
+        ]);
+    }
+
+    public function update(Request $request, int $id) {
+        $request->validate([
+            "name"          => "required|min:3|max:30",
+            "career_id"     => "required|exists:careers,id",
+        ]);
+        $subject = Subject::find($id);
+        if (!$subject) return Inertia::render('Errors/404');
+        if ($request->get('career_id') == $subject->career_id){
+            $subject->name      = $request->get('name');
+            $subject->career_id = $request->get('career_id');
+            $subject->save();
+            return redirect()->route('subjects.index');
+        };
+        return Inertia::render('Subjects/ConfirmUpdate', [
+            'obj' => $subject,
+            'visitRoute' => route('subjects.confirmed', ['id' => $id]),
+            'updateObj' => $request->get('career_id'),
+            'name' => $request->get('name'),
+        ]);
+    }
+
+    public function confirmedUpdate(Request $request, int $id) {
+        $request->validate([
+            "name"          => "required|min:3|max:30",
+            "career_id"     => "required|exists:careers,id",
+        ]);
+        $subject = Subject::find($id);
+        if (!$subject) return Inertia::render('Errors/404');
+        AcademicData::where('subject_id', $id)->delete();
+        $subject->name      = $request->get('name');
+        $subject->career_id = $request->get('career_id');
+        $subject->save();
+
+        return redirect()->route('subjects.index');
+    }
+
+
 }

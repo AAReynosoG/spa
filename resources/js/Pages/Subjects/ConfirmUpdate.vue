@@ -9,9 +9,9 @@
                                 <h3>Confirmación</h3>
                             </div>
                             <div class="card-body">
-                                <p>¿Estás seguro de eliminar la materia: {{ obj.name }} ?</p>
-                                <p>Ten en cuenta que al realizar esta accion, si las materias estan activas se borraran los registros de estas.</p>
-                                <button class="btn btn-danger btn-space" @click="deleteObjRoute">Sí</button>
+                                <p>¿Estás seguro de modificar la carrera de la materia: {{ obj.name }} ?</p>
+                                <p>Ten en cuenta que al realizar esta accion, si las materia esta siendo impartida de manera activa en otra carrera, se borraran los registros de esta.</p>
+                                <button class="btn btn-danger btn-space" @click="updateObjRoute">Sí</button>
                                 <button class="btn btn-secondary btn-space" @click="cancelRoute">No</button>
                             </div>
                         </div>
@@ -29,11 +29,15 @@ export default {
         AppLayout
     },
     props: {
-        deleteObj: {
+        visitRoute: {
             type: String,
             required: true
         },
-        cancel: {
+        updateObj: {
+            type: Number,
+            required: true
+        },
+        name: {
             type: String,
             required: true
         },
@@ -43,10 +47,14 @@ export default {
         }
     },
     methods: {
-        async deleteObjRoute() {
-            await this.$inertia.delete(this.deleteObj);
+        async updateObjRoute() {
+            await this.$inertia.put(this.visitRoute, {
+                name: this.name,
+                career_id: this.updateObj
+            });
             this.$inertia.replace('/subjects/index');
-        },
+        }
+        ,
         cancelRoute() {
             this.$inertia.replace('/subjects/index');
         }
