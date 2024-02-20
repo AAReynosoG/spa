@@ -17,7 +17,7 @@
                             </div>
                         </div>
                         <br>
-                        <button type="submit" class="btn btn-primary" :disabled="form.processing">Enviar</button>
+                        <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" :disabled="form.processing">Enviar</button>
                         <Link class="btn btn-danger" :href="route('careers.index')" @click="cancel">Cancel</Link>
                     </form>
                 </template>
@@ -61,3 +61,4 @@ const cancel = () => {
     margin-top: 50px;
 }
 </style>
+#

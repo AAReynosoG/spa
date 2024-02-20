@@ -1,73 +1,69 @@
 <template>
     <FormCard header="Enroll Student">
         <template #form>
-            <form @submit.prevent="submitForm()">
-                <div class="form-group">
+            <form @submit.prevent="submitForm()"  class="space-y-4">
+                <div>
                     <input-form id="name" placeholder="Write student's name" name="name" type="text" lbl-text="Name" v-model="form.name" :class="{ 'is-invalid': form.errors.name }"></input-form>
-                    <div class="invalid-feedback" v-if="form.errors.name">
+                    <p class="text-red-500 text-xs italic" v-if="form.errors.name">
                         {{ form.errors.name }}
-                    </div>
+                    </p>
                 </div>
-                <div class="form-group">
+                <div>
                     <input-form id="last_name" placeholder="Write stuendt's last name" name="last_name" type="text" lbl-text="Last name" v-model="form.last_name" :class="{ 'is-invalid': form.errors.last_name }"></input-form>
-                    <div class="invalid-feedback" v-if="form.errors.last_name">
+                    <p class="text-red-500 text-xs italic" v-if="form.errors.last_name">
                         {{ form.errors.last_name}}
-                    </div>
+                    </p>
                 </div>
-                <div class="form-group">
+                <div>
                     <input-form :class="{ 'is-invalid': form.errors.email }" id="email" placeholder="Write stuendt's email" name="email" type="email" lbl-text="Email" v-model="form.email"></input-form>
-                    <div class="invalid-feedback" v-if="form.errors.email">
+                    <p class="text-red-500 text-xs italic" v-if="form.errors.email">
                         {{ form.errors.email }}
-                    </div>
+                    </p>
                 </div>
-                <div class="form-group">
+                <div>
                     <input-form :class="{ 'is-invalid': form.errors.phone }" id="Phone" placeholder="Write stuendt's phone" name="phone" type="number" lbl-text="Phone" v-model="form.phone"></input-form>
-                    <div class="invalid-feedback" v-if="form.errors.phone">
+                    <p class="text-red-500 text-xs italic" v-if="form.errors.phone">
                         {{ form.errors.phone }}
-                    </div>
+                    </p>
                 </div>
-                <div class="form-group">
+                <div>
                     <input-form :class="{ 'is-invalid': form.errors.address }" id="address" placeholder="Write stuendt's address" name="address" type="text" lbl-text="Address" v-model="form.address"></input-form>
-                    <div class="invalid-feedback" v-if="form.errors.address">
+                    <p class="text-red-500 text-xs italic" v-if="form.errors.address">
                         {{ form.errors.address }}
-                    </div>
+                    </p>
                 </div>
-                <div class="form-group">
-                    <label for="dropdownCareer">Student's Career</label>
-                    <select class="form-control" id="dropdownCareer" v-model="selectedItemCareer" @change="fetchSubjects">
+                <div>
+                    <label for="dropdownCareer" class="block text-sm font-medium text-gray-700">Student's Career</label>
+                    <select class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" id="dropdownCareer" v-model="selectedItemCareer" @change="fetchSubjects">
                         <option v-if="careers.length === 0">Nothing</option>
                         <option v-else v-for="item in careers" :key="item.id" :value="item.id">
                             {{ item.name }}
                         </option>
                     </select>
                 </div>
-                <div class="form-group"  style="max-height: 90px; overflow-y: auto;">
-                    <label>Career's subjects</label>
-                    <div v-for="item in subjects" :key="item.id">
+                <div class="overflow-auto h-20">
+                    <label class="block text-sm font-medium text-gray-700">Career's subjects</label>
+                    <div v-for="item in subjects" :key="item.id" class="flex items-center mt-2">
                         <input type="checkbox" :value="item.id" v-model="selectedItemsSubjects" @change="fetchTeachers"
-                               :disabled="selectedItemsSubjects.length >= maxSelections && !selectedItemsSubjects.includes(item.id)" :class="{ 'is-invalid': form.errors.subjects }">
-                        <label>{{ item.name }}</label>
+                               :disabled="selectedItemsSubjects.length >= maxSelections && !selectedItemsSubjects.includes(item.id)" :class="{ 'border-red-500': form.errors.subjects }" class="form-checkbox h-5 w-5 text-indigo-600">
+                        <label class="ml-2 text-sm text-gray-900">{{ item.name }}</label>
                     </div>
-                    <div class="invalid-feedback" v-if="form.errors.subjects">
-                        {{ form.errors.subjects }}
-                    </div>
+                    <p class="text-red-500 text-xs italic" v-if="form.errors.subjects">{{ form.errors.subjects }}</p>
                 </div>
-                <div style="max-height: 130px; overflow-y: auto;">
+                <p class="text-red-500 text-xs italic" v-if="showErrorMsg">The number of teachers selected must be equal to the number of subjects selected.</p>
+                <div class="overflow-auto h-20">
                     <div class="form-group" v-for="(selectedItem, index) in selectedItemsSubjects" :key="selectedItem">
-                        <label for="dropdownTeachers">Teacher for {{ subjects.find(subject => subject.id === selectedItem).name }}</label>
-                        <select :class="{ 'is-invalid': form.errors.teachers }" class="form-control" id="dropdownTeachers" v-model="selectedItemTeachers[index]">
+                        <label for="dropdownTeachers" class="block text-sm font-medium text-gray-700">Teacher for {{ subjects.find(subject => subject.id === selectedItem).name }}</label>
+                        <select :class="{ 'border-red-500': form.errors.teachers }" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" id="dropdownTeachers" v-model="selectedItemTeachers[index]">
                             <option v-if="teachers.length === 0">Nothing</option>
                             <option v-else v-for="item in teachers" :key="item.id" :value="item.id">
                                 Name: {{ item.name }} | Email: {{item.email}}
                             </option>
                         </select>
-                        <div class="invalid-feedback" v-if="form.errors.teachers">
-                            {{ form.errors.teachers }}
-                        </div>
+                        <p class="text-red-500 text-xs italic" v-if="form.errors.teachers">{{ form.errors.teachers }}</p>
                     </div>
                 </div>
-                <br>
-                <button type="submit" class="btn btn-primary" :disabled="form.processing">Enviar</button>
+                <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" :disabled="form.processing">Enviar</button>
             </form>
         </template>
     </FormCard>
@@ -88,6 +84,8 @@ const careers = ref([]);
 const selectedItemCareer = ref(null);
 
 const maxSelections = 8;
+
+const showErrorMsg = ref(false);
 
 const fetchCareers = async () =>{
     try {
@@ -121,7 +119,6 @@ const fetchTeachers = async () => {
             const response = await axios.get(route('fetch.teachers'));
             console.log('teachers');
             teachers.value = response.data;
-            selectedItemTeachers.value = [];
         } catch (error) {
             console.error(error);
         }
@@ -142,9 +139,6 @@ const form = useForm({
 });
 
 const submitForm = () => {
-    if (selectedItemsSubjects.value.length === 0 || selectedItemCareer.value === null) {
-        alert("You must select at least one subject and a career");
-    }
 
     form.teachers = selectedItemTeachers.value;
     form.subjects = selectedItemsSubjects.value;
@@ -159,3 +153,4 @@ onMounted(fetchCareers);
     margin-top: 50px;
 }
 </style>
+#

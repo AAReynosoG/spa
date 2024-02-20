@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Student;
+use App\Rules\ArrayElementNotNull;
+use App\Rules\MatchArraySize;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -30,9 +32,10 @@ class StudentsController extends Controller
             "email"         => "required|email|unique:students,email",
             'phone'         => 'required|regex:/^(\+\d{1,3}[- ]?)?\d{10}$/|unique:students,phone',
             'address'       => 'required|min:5|max:100',
-            'subjects'      => 'required|array|max:8',
-            'teachers'      => 'required|array',
+            'subjects'      => ['required', 'array', 'max:8', new MatchArraySize('teachers'), new ArrayElementNotNull()],
+            'teachers'      => ['required', 'array', new MatchArraySize('subjects'), new ArrayElementNotNull()],
         ]);
+
 
         $student = new Student();
         $student->name      = $request->get('name');
@@ -177,8 +180,8 @@ class StudentsController extends Controller
             "email"         => "required|email|unique:students,email," . $id,
             'phone'         => 'required|regex:/^(\+\d{1,3}[- ]?)?\d{10}$/|unique:students,phone,' . $id,
             'address'       => 'required|min:5|max:100|min:1',
-            'subjects'      => 'required|array|max:8|min:1',
-            'teachers'      => 'required|array',
+            'subjects'      => ['required', 'array', 'max:8', new MatchArraySize('teachers'), new ArrayElementNotNull()],
+            'teachers'      => ['required', 'array', new MatchArraySize('subjects'), new ArrayElementNotNull()],
         ]);
 
         $student->name      = $request->get('name');

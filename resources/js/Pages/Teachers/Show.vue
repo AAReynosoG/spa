@@ -1,28 +1,27 @@
 <template>
     <app-layout>
         <template #main>
-            <div class="container">
-                <div class="row">
-                    <div class="col">
-                        <h1 class="mt-4">{{ teacher.name }} {{ teacher.last_name }}</h1>
-                        <p><strong>Email:</strong> {{ teacher.email }}</p>
-                        <p><strong>Phone:</strong> {{ teacher.phone }}</p>
-                        <p><strong>Address:</strong> {{ teacher.address }}</p>
-                        <h5 class="mt-3">Carreras que imparte el profesor(a):</h5>
-                        <ul>
-                            <li v-for="(careerData, careerId) in careers" :key="careerId">
-                                <h3>{{ careerData.name }}</h3>
-                            </li>
-                        </ul>
-                        <h5 class="mt-3" @click="fetchSubjects(teacher.id)" v-if="!boolSubjects">Materias que imparte el profesor(a).</h5>
-                        <h5 v-if="boolSubjects"><strong>Materias:</strong> {{ subjects.map(subject => subject.name).join(', ') }}</h5>
-                        <h6 class="mt-3" @click="hideSubjects" v-if="boolSubjects">Ocultar materias.</h6>
-                    </div>
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                <div class="flex flex-col items-start">
+                    <h1 class="text-3xl font-bold mt-4">{{ teacher.name }} {{ teacher.last_name }}</h1>
+                    <p class="mt-2"><span class="font-bold">Email:</span> {{ teacher.email }}</p>
+                    <p class="mt-2"><span class="font-bold">Phone:</span> {{ teacher.phone }}</p>
+                    <p class="mt-2"><span class="font-bold">Address:</span> {{ teacher.address }}</p>
+                    <h5 class="mt-3">Carreras que imparte el profesor(a):</h5>
+                    <ul>
+                        <li v-for="(careerData, careerId) in careers" :key="careerId">
+                            <h3>{{ careerData.name }}</h3>
+                        </li>
+                    </ul>
+                    <button class="mt-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" @click="fetchSubjects(teacher.id)" v-if="!boolSubjects">Materias que imparte el profesor(a).</button>
+                    <h5 v-if="boolSubjects"><strong>Materias:</strong> {{ subjects.map(subject => subject.name).join(', ') }}</h5>
+                    <button class="mt-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" @click="hideSubjects" v-if="boolSubjects">Ocultar materias.</button>
                 </div>
             </div>
         </template>
     </app-layout>
 </template>
+
 
 <script>
 import appLayout from "@/Layouts/AppLayout.vue";

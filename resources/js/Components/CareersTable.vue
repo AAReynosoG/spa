@@ -1,23 +1,24 @@
 <template>
-    <div class="table-responsive">
-        <table class="table table-striped custom-table">
-            <thead>
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
             <tr>
-                <th scope="col">Career</th>
-                <th scope="col">Description</th>
-                <th colspan="2">Actions</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Career</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody class="bg-white divide-y divide-gray-200">
             <tr v-for="obj in arr" :key="obj.id">
-                <td><Link :href="route('careers.show', {id: obj.id})">
-                {{ obj.name }}
-                </Link>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <Link :href="route('careers.show', {id: obj.id})" class="text-indigo-600 hover:text-indigo-900">
+                        {{ obj.name }}
+                    </Link>
                 </td>
-                <td>{{obj.description}}</td>
-                <td>
-                    <Link class="btn btn-primary btn-space" :href="route('careers.edit', {id: obj.id})">Edit</Link>
-                    <Link class="btn btn-danger btn-space" :href="route('careers.confirmDelete', {id: obj.id})">Delete</Link>
+                <td class="px-6 py-4 whitespace-nowrap">{{obj.description}}</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <Link class="text-indigo-600 hover:text-indigo-900 mr-4" :href="route('careers.edit', {id: obj.id})">Edit</Link>
+                    <Link class="text-red-600 hover:text-red-900" :href="route('careers.confirmDelete', {id: obj.id})">Delete</Link>
                 </td>
             </tr>
             </tbody>
@@ -38,7 +39,5 @@ export default {
 </script>
 
 <style scoped>
-.btn-space{
-    margin-right: 10px;
-}
+
 </style>

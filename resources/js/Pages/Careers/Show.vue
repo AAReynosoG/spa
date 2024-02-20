@@ -1,18 +1,17 @@
 <template>
     <app-layout>
         <template #main>
-            <div class="container">
-                <div class="row">
-                    <div class="col">
-                        <h1 class="mt-4">{{ career.name }}</h1>
-                        <p><strong>Description:</strong> {{ career.description }}</p>
-                        <h5><strong>Materias:</strong> {{ subjects.map(subject => subject.name).join(', ') }}</h5>
-                    </div>
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                <div class="flex flex-col items-start">
+                    <h1 class="text-3xl font-bold mt-4">{{ career.name }}</h1>
+                    <p class="mt-2"><span class="font-bold">Description:</span> {{ career.description }}</p>
+                    <h5 class="mt-2"><span class="font-bold">Materias:</span> {{ subjects.map(subject => subject.name).join(', ') }}</h5>
                 </div>
             </div>
         </template>
     </app-layout>
 </template>
+
 
 <script>
 import appLayout from "@/Layouts/AppLayout.vue";
@@ -35,3 +34,4 @@ export default {
 
 <style scoped>
 </style>
+#

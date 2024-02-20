@@ -69,7 +69,7 @@
                             </div>
                         </div>
                         <br>
-                        <button type="submit" class="btn btn-primary" :disabled="form.processing">Update</button>
+                        <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" :disabled="form.processing">Update</button>
                         <Link class="btn btn-danger btn-space" :href="route('students.index')">Cancel</Link>
                     </form>
                 </template>
@@ -101,8 +101,11 @@ const maxSelections = 8;
 
 
 const count = () => {
-    click.value++;
-    console.log(click.value);
+    if (selectedItemsSubjects.value === []){
+        click.value++;
+        console.log("Debug 1", click.value);
+    }
+    console.log("Debug 2", click.value);
 }
 
 const props = defineProps({
@@ -209,12 +212,6 @@ const form = useForm({
 });
 
 const submitForm = () => {
-
-    if (selectedItemTeachers.value.some(item => item === null || item === '')) {
-        alert('Dejaste una materia sin profesor, por favor selecciona uno para cada materia.');
-        return;
-    }
-
 
     form.teachers = selectedItemTeachers.value;
     form.subjects = selectedItemsSubjects.value;

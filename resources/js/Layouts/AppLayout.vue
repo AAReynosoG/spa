@@ -1,7 +1,7 @@
 <template>
-    <div class="d-flex flex-column min-vh-100">
+    <div class="flex flex-col h-screen justify-between">
         <Navbar></Navbar>
-        <div class="container" style="overflow-y: auto; flex: 1;">
+        <div class="mb-auto overflow-auto">
             <slot name="main"></slot>
         </div>
         <Footer></Footer>
@@ -19,7 +19,5 @@ export default {
 </script>
 
 <style scoped>
-.container {
-    max-height: calc(100vh - 56px - 105px);
-}
+
 </style>

@@ -1,29 +1,25 @@
 <template>
-        <AppLayout>
-            <template #main>
-                <formCard header="Add career">
-                    <template #form>
-                        <form @submit.prevent="submitForm">
-                            <div class="form-group">
-                                <inputForm  id="name" placeholder="Write career's name" name="name" type="text" lbl-text="Name" v-model="form.name" :class="{ 'is-invalid': form.errors.name }"></inputForm>
-                                <div class="invalid-feedback" v-if="form.errors.name">
-                                    {{ form.errors.name }}
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <input-form id="description" placeholder="Write career's description" name="description" type="text" lbl-text="Description" v-model="form.description" :class="{ 'is-invalid': form.errors.description }"></input-form>
-                                <div class="invalid-feedback" v-if="form.errors.description">
-                                    {{ form.errors.description }}
-                                </div>
-                            </div>
-                            <br>
-                            <button type="submit" class="btn btn-primary" :disabled="form.processing">Enviar</button>
-                        </form>
-                    </template>
-                </formCard>
-            </template>
-        </AppLayout>
+    <AppLayout>
+        <template #main>
+            <formCard header="Add career">
+                <template #form>
+                    <form @submit.prevent="submitForm" class="space-y-4">
+                        <div>
+                            <inputForm id="name" placeholder="Write career's name" name="name" type="text" lbl-text="Name" v-model="form.name" :class="{ 'border-red-500': form.errors.name }"></inputForm>
+                            <p class="text-red-500 text-xs italic" v-if="form.errors.name">{{ form.errors.name }}</p>
+                        </div>
+                        <div>
+                            <input-form id="description" placeholder="Write career's description" name="description" type="text" lbl-text="Description" v-model="form.description" :class="{ 'border-red-500': form.errors.description }"></input-form>
+                            <p class="text-red-500 text-xs italic" v-if="form.errors.description">{{ form.errors.description }}</p>
+                        </div>
+                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" :disabled="form.processing">Enviar</button>
+                    </form>
+                </template>
+            </formCard>
+        </template>
+    </AppLayout>
 </template>
+
 
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
@@ -47,3 +43,4 @@ const submitForm = () => {
     margin-top: 50px;
 }
 </style>
+#
